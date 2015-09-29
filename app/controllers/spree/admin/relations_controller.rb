@@ -8,7 +8,7 @@ module Spree
       def create
         @relation = Relation.new(relation_params)
         @relation.relatable = @product
-        @relation.related_to = Spree::Variant.find(relation_params[:related_to_id]).product
+        @relation.related_to = Spree::Product.find(relation_params[:related_to_id])
         @relation.save
 
         respond_with(@relation)
@@ -58,7 +58,7 @@ module Spree
       end
 
       def load_data
-        @product = Spree::Product.friendly.find(params[:product_id])
+        @product = Spree::Product.find(params[:product_id])
       end
 
       def model_class
