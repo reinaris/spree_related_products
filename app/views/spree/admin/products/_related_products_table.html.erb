@@ -12,13 +12,17 @@
       <% product.relations.each do |relation| %>
         <tr id="<%= spree_dom_id relation %>" data-hook="products_row">
           <td>
-            <span class="icon icon-move js-sort-handle"></span>
+            <% if can? :edit, relation %>
+              <span class="icon icon-move js-sort-handle"></span>
+            <% end %>
           </td>
           <td class="image"><%= mini_image relation.related_to %></td>
           <td><%= link_to relation.related_to.name, relation.related_to %></td>
           <td><%= relation.relation_type.name %></td>
           <td class="actions">
-            <%= link_to_with_icon 'delete', Spree.t('delete'), admin_product_relation_url(relation.relatable, relation), method: :delete, class: 'delete-line-item btn btn-danger btn-sm', title: Spree.t('delete'), no_text: true %>
+            <% if can? :destroy, relation %>
+              <%= link_to_with_icon 'delete', Spree.t('delete'), admin_product_relation_url(relation.relatable, relation), method: :delete, class: 'delete-line-item btn btn-danger btn-sm', title: Spree.t('delete'), no_text: true %>
+            <% end %>
           </td>
         </tr>
       <% end %>
