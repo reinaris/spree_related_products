@@ -4,7 +4,7 @@
 
 <% content_for :page_actions do %>
   <%= button_link_to Spree.t(:new_relation_type), new_object_url, class: 'btn-primary', icon: 'add', id: 'admin_new_relation_type' %>
-<% end %>
+<% end if can?(:create, Spree::RelationType) %>
 
 <% if @relation_types.any? %>
   <table class="table" id="listing_relation_types" data-hook>
@@ -24,13 +24,13 @@
     </thead>
     <tbody>
       <% @relation_types.each do |relation_type| %>
-        <tr id="<%= spree_dom_id relation_type %>" data-hook="admin_relation_types_index_row" class="<%= cycle('odd', 'even') %>">
+        <tr id="<%= spree_dom_id relation_type %>" data-hook="admin_relation_types_index_row">
           <td><%= relation_type.name %></td>
           <td><%= relation_type.applies_to %></td>
           <td><%= relation_type.description %></td>
           <td class="actions" data-hook="admin_relation_types_index_row_actions">
-            <%= link_to_edit relation_type, no_text: true %>
-            <%= link_to_delete relation_type, no_text: true %>
+            <%= link_to_edit(relation_type, no_text: true) if can? :edit, relation_type %>
+            <%= link_to_delete(relation_type, no_text: true) if can? :destroy, relation_type %>
           </td>
         </tr>
       <% end %>
@@ -38,7 +38,6 @@
   </table>
 <% else %>
   <div class="alert alert-warning no-objects-found">
-    <%= Spree.t(:no_resource_found, resource: Spree::RelationType.model_name.human(count: :many)) %>,
-    <%= link_to Spree.t(:add_one), spree.new_admin_relation_type_path %>!
+    <%= Spree.t(:no_resource_found, resource: Spree::RelationType.model_name.human(count: :many)) %>
   </div>
 <% end %>

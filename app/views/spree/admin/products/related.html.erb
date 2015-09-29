@@ -1,12 +1,12 @@
 <% content_for :page_actions do %>
   <%= button_link_to Spree.t(:add_related_product), "javascript:;", class: "btn-success", data: { toggle: "modal", target: "#addRelatedProduct" }, icon: 'add' %>
-<% end if !@relation_types.empty? %>
+<% end if !@relation_types.empty? && can?(:create, Spree::Relation) %>
 
 <%= render partial: 'spree/admin/shared/product_tabs', locals: { current: 'Related Products' } %>
 
 <%= csrf_meta_tag %>
 
-<% if @relation_types.any? %>
+<% if @relation_types.any? && can?(:create, Spree::Relation %>
   <div class="modal fade" id="addRelatedProduct" tabindex="-1" role="dialog" aria-labelledby="addRelatedProductLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

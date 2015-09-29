@@ -53,6 +53,7 @@ module Spree
           :related_to,
           :relation_type,
           :relatable,
+          :relatable_id,
           :related_to_id,
           :discount_amount,
           :relation_type_id,
@@ -62,7 +63,7 @@ module Spree
       end
 
       def load_data
-        @product = Spree::Product.friendly.find(params[:product_id])
+        @product = Spree::Product.find(params[:product_id])
       end
 
       def find_relation
